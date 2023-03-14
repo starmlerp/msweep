@@ -162,9 +162,9 @@ int main(int argc, char *argv[]){
 	while(fog > b){
 		clear();
 		mvprintw(0, 0, "flags: %d", b-flags);
-		if(!minefield[x][y].fog)
+		if(minefield[x][y].fog)
 			mvprintw(w+1, 0, "fog of war");
-		if(minefield[x][y].flag)
+		else if(minefield[x][y].flag)
 			mvprintw(w+1, 0, "a flag you placed");
 		else 
 			mvprintw(w+1, 0, "this field has %d \nmines surrounding it", minefield[x][y].scout);
