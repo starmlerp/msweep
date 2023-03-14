@@ -5,23 +5,6 @@
 
 using namespace std;
 
-#ifdef __linux__
-int sleep( int ms ){
-	if(ms <= 0)return 0;
-	struct timespec t;
-	int d;
-	t.tv_sec = (double)ms / 1000;
-	t.tv_nsec = (double)( ms % 1000) * 1000000;
-	do{
-		d = nanosleep(&t, NULL);
-	}while(d);
-	return 0;
-}
-#endif
-#ifdef __WIN32
-#define sleep(n) Sleep(n)
-#endif
-
 const int difficulty[3][3] = {
 	{9, 9, 10},
 	{16, 16, 40},

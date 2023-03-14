@@ -1,6 +1,6 @@
 TARGET = main
 
-CPPFLAGS = -lcurses -g
+CPPFLAGS = -lcurses
 
 all: $(TARGET) tags
 
