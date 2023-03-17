@@ -20,7 +20,7 @@ struct square{
 
 int w, h, b, fog, flags = 0;
 
-void printfield(char *text){
+void printfield(char *text, char indicator){
 	clear();
 	mvprintw(0, 0, "flags: %d", b-flags);
 	mvprintw(w+1, 0, "%s\npress any key to continue", text);
@@ -28,7 +28,7 @@ void printfield(char *text){
 		for(int j = 0; j < h; j++){
 			if(minefield[i][j].bomb){
 				attron(COLOR_PAIR(10));
-				mvaddch(i+1, j, 'M');
+				mvaddch(i+1, j, indicator);
 				attroff(COLOR_PAIR(10));
 			
 			}
@@ -64,7 +64,6 @@ void reveal(int x, int y){
 }
 
 void genfield(){
-	srand(time(0));
 	for(int i = 0; i < b; i++){
 		int x, y;
 		do{
@@ -88,7 +87,7 @@ void genfield(){
 }
 
 int main(int argc, char *argv[]){
-
+	srand(time(0));
 	if(argc > 1){
 		for(int i = 1; i < argc; i++){
 			if(argv[i][0] != '-'){
@@ -192,7 +191,6 @@ int main(int argc, char *argv[]){
 				}
 			}
 		}
-//		mvaddch(x, y, '_');
 		refresh();
 		
 		switch(getch()){
@@ -205,8 +203,7 @@ int main(int argc, char *argv[]){
 				while(minefield[x][y].bomb && fog == h * w)
 					genfield();
 				if(minefield[x][y].bomb){
-					
-					printfield("you stepped on a mine!");
+					printfield("you stepped on a mine!", 'm');
 					return 0;
 				}
 				
@@ -220,10 +217,10 @@ int main(int argc, char *argv[]){
 				else flags--;
 			break;
 		}
-		x = x % w;
-		y = y % h;
+		x = (w+x) % w;
+		y = (h+y) % h;
 	}
-	printfield("you cleared out the field!");
+	printfield("you cleared out the field!", 'f');
 	endwin();
 	return 0;
 }
